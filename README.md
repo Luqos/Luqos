@@ -10,10 +10,10 @@ Gained hands-on experience in Programming Fundamentals, Web Development Fundamen
 Currently deepening my skills in Cloud Infrastructure, Service Computing, and Cybersecurity.
 
 Skills :-
-Programming Languages: Java
+Programming Languages: Java, C++, Python
 Web Technologies: HTML, CSS, JavaScript, PHP
 IT: IT Support, IT Documentation, IT Services
-Networking: Network Infrastructure, Computer Networks, Network Topology, Network Security
+Networking: Network Infrastructure, Computer Networks, Network Topology, Network Security, Cloud (AWS)
 Database Systems: MySQL, Relational Databases
 Operating Systems: Linux (Debian), Windows Server
 
@@ -23,7 +23,7 @@ Networking: Enthusiastic about building and securing efficient networks.
 Cybersecurity: Eager to dive into ethical hacking, CTF challenges, and network security.
 
 Projects :-
-Parking Lot System Prototype – Won 2 bronze medal in innovation competitions
+Parking Lot System Prototype – Won 2 bronze medal in innovation competitions,
 Automatic Visitor Counter - Won 1 gold medal and 2 bronze medal in innovation competitions
 
 Let's Connect :-
