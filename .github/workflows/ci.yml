@@ -1,14 +1,29 @@
-name: CI Pipeline
+name: CI/CD Pipeline
 on:
   push:
     branches: [ "master" ]
 
 jobs:
-  build:
+  build-and-publish:
     runs-on: ubuntu-latest
+    
+    # We have to explicitly give GitHub permission to write to our registry
+    permissions:
+      contents: read
+      packages: write 
+
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
 
+    # 1. Log in to GitHub's built-in Docker registry using a hidden token
+    - name: Log in to GitHub Container Registry
+      run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+
+    # 2. Build the image, but this time tag it with the GHCR web address
     - name: Build Docker image
-      run: docker build -t my-app .
+      run: docker build -t ghcr.io/luqos/luqos:latest .
+
+    # 3. Push the finalized image into your GitHub storage
+    - name: Push Docker image
+      run: docker push ghcr.io/luqos/luqos:latest
