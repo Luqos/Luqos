@@ -1,0 +1,19 @@
+version: '3.8'
+
+services:
+  # Container 1: The Database
+  db:
+    image: mysql:8.0
+    container_name: client_database
+    environment:
+      MYSQL_ROOT_PASSWORD: supersecretpassword
+      MYSQL_DATABASE: my_portfolio_db
+    ports:
+      - "3306:3306"
+
+  # Container 2: Your C++ Application
+  app:
+    build: .
+    container_name: client_backend
+    depends_on:
+      - db
