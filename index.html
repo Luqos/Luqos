@@ -26,13 +26,43 @@
                 <li><a href="#projects">Projects</a></li>
                 <li><a href="#contact">Contact</a></li>
             </ul>
-            <div class="hamburger" id="hamburger">
-                <span></span>
-                <span></span>
-                <span></span>
+            <div class="nav-actions">
+                <button class="terminal-btn" id="terminalToggle" aria-label="Open Terminal">
+                    <i class="fas fa-terminal"></i>
+                </button>
+                <div class="hamburger" id="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
             </div>
         </div>
     </nav>
+
+    <!-- Terminal Modal -->
+    <div class="terminal-overlay" id="terminalOverlay">
+        <div class="terminal-modal">
+            <div class="terminal-header">
+                <div class="terminal-dots">
+                    <span class="dot-red"></span>
+                    <span class="dot-yellow"></span>
+                    <span class="dot-green"></span>
+                </div>
+                <span class="terminal-title">luqman@portfolio:~$</span>
+                <button class="terminal-close" id="terminalClose"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="terminal-body" id="terminalBody">
+                <div class="terminal-line">
+                    <span class="terminal-prompt">luqman@portfolio:~$</span>
+                    <span class="terminal-welcome">Welcome to Luqman's Portfolio Terminal. Type <strong>help</strong> for commands.</span>
+                </div>
+            </div>
+            <div class="terminal-input-line">
+                <span class="terminal-prompt">luqman@portfolio:~$</span>
+                <input type="text" class="terminal-input" id="terminalInput" autofocus />
+            </div>
+        </div>
+    </div>
 
     <!-- Hero / Home -->
     <section id="home" class="hero">
@@ -152,6 +182,18 @@
                     <i class="fab fa-git-alt"></i>
                     <h3>Git & GitHub</h3>
                 </div>
+                <div class="skill-card">
+                    <i class="fab fa-golang"></i>
+                    <h3>Go</h3>
+                </div>
+                <div class="skill-card">
+                    <i class="fas fa-code"></i>
+                    <h3>Terraform</h3>
+                </div>
+                <div class="skill-card">
+                    <i class="fas fa-microchip"></i>
+                    <h3>C++</h3>
+                </div>
             </div>
         </div>
     </section>
@@ -160,30 +202,20 @@
     <section id="projects" class="projects section">
         <div class="container">
             <h2 class="section-title">My <span class="highlight">Projects</span></h2>
-            <div class="projects-grid">
-                <div class="project-card">
-                    <div class="project-img">
-                        <img src="https://via.placeholder.com/600x400/0f3460/e94560?text=Hotel+Management" alt="Hotel Management System" />
-                    </div>
-                    <div class="project-info">
-                        <h3>Hotel Management System</h3>
-                        <p>
-                            A complete Java Swing desktop application for managing hotel guest records.
-                            Supports CRUD operations, room type pricing, payment methods, stay extension,
-                            and data persistence via file I/O. Built with OOP principles including
-                            inheritance, interfaces, and custom exception handling.
-                        </p>
-                        <div class="project-tags">
-                            <span>Java</span>
-                            <span>Swing</span>
-                            <span>OOP</span>
-                            <span>File I/O</span>
-                        </div>
-                        <div class="project-links">
-                            <a href="https://github.com/Luqos" target="_blank" aria-label="Code"><i class="fab fa-github"></i> Code</a>
-                        </div>
-                    </div>
-                </div>
+            <div class="filter-buttons" id="filterButtons">
+                <button class="filter-btn active" data-filter="all">All</button>
+                <button class="filter-btn" data-filter="CI/CD">CI/CD</button>
+                <button class="filter-btn" data-filter="Docker">Docker</button>
+                <button class="filter-btn" data-filter="Microservices">Microservices</button>
+            </div>
+            <div class="projects-grid" id="projectsGrid">
+                <!-- Dynamically injected by GitHub API fetch -->
+            </div>
+            <div class="projects-loading" id="projectsLoading">
+                <i class="fas fa-spinner fa-spin"></i> Loading projects from GitHub...
+            </div>
+            <div class="projects-error" id="projectsError" style="display:none;">
+                <i class="fas fa-exclamation-triangle"></i> Could not load projects. Showing cached data.
             </div>
         </div>
     </section>
@@ -197,6 +229,7 @@
             </p>
             <div class="contact-content">
                 <form id="contactForm" class="contact-form">
+                    <input type="hidden" name="access_key" value="1da040db-4cbc-4f57-8fae-83021fc0e786" />
                     <div class="form-group">
                         <input type="text" id="name" placeholder="Your Name" required />
                     </div>
@@ -206,9 +239,15 @@
                     <div class="form-group">
                         <textarea id="message" rows="5" placeholder="Your Message" required></textarea>
                     </div>
-                    <button type="submit" class="btn btn-primary btn-block">
-                        Send Message <i class="fas fa-paper-plane"></i>
-                    </button>
+                    <div class="form-status" id="formStatus"></div>
+                    <div class="btn-container">
+                        <button type="button" class="btn btn-email" id="btnEmail">
+                            <i class="fas fa-envelope"></i> Send via Email
+                        </button>
+                        <button type="button" class="btn btn-whatsapp" id="btnWhatsapp">
+                            <i class="fab fa-whatsapp"></i> Send via WhatsApp
+                        </button>
+                    </div>
                 </form>
                 <div class="contact-info">
                     <div class="contact-item">
