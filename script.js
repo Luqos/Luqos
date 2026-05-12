@@ -63,6 +63,34 @@ const targetRepos = [
     'go-microservice'
 ];
 
+// Hardcoded fallback data in case GitHub API is rate-limited
+const FALLBACK_REPOS = [
+    {
+        name: 'FastAPI-with-Python-CI-CD',
+        description: 'Python FastAPI backend that demonstrates passing secure environment variables from a CI/CD pipeline into a running container without hardcoding them. Built with Docker for containerization and automated deployment.',
+        language: 'Python',
+        html_url: 'https://github.com/Luqos/FastAPI-with-Python-CI-CD',
+    },
+    {
+        name: 'Static-Website-CI-CD',
+        description: 'End-to-end CI/CD pipeline for a static website using Docker containerization, provisioned and deployed to AWS EC2 with Terraform.',
+        language: 'HCL',
+        html_url: 'https://github.com/Luqos/Static-Website-CI-CD',
+    },
+    {
+        name: 'Health-Telemetry-CD-CD',
+        description: 'Cloud-focused project exploring and testing CI/CD pipelines for a health telemetry system. Built with C++ and containerized with Docker, provisioned via Terraform.',
+        language: 'C++',
+        html_url: 'https://github.com/Luqos/Health-Telemetry-CD-CD',
+    },
+    {
+        name: 'go-microservice',
+        description: 'A compiled Go microservice designed to run without the full Go runtime environment — demonstrating statically linked binaries, containerization, and microservice architecture.',
+        language: 'Go',
+        html_url: 'https://github.com/Luqos/go-microservice',
+    }
+];
+
 function openTerminal() {
     terminalOverlay.classList.add('open');
     setTimeout(() => terminalInput.focus(), 100);
@@ -314,9 +342,9 @@ async function fetchGitHubProjects() {
 
         projectsLoading.style.display = 'none';
 
+        // If API fetch failed entirely, use hardcoded fallback data
         if (repos.length === 0) {
-            projectsError.style.display = 'block';
-            return;
+            repos.push(...FALLBACK_REPOS);
         }
 
         // Sort by target order
