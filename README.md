@@ -108,6 +108,6 @@ Bahasa Malaysia (Native) · English (Fluent) · Mandarin (Basic) · French (Basi
 ## 📫 Let's Connect
 
 - 🌐 Portfolio: https://portfolio-luqos.vercel.app
-- 💼 LinkedIn: https://www.linkedin.com/in/luqman-hakem-laily-0815282a9/
+- 💼 LinkedIn: https://www.linkedin.com/in/luqman-hakem-0815282a9/
 - 🐙 GitHub: https://github.com/Luqos
 - ✉️ Email: work.luqman04@gmail.com

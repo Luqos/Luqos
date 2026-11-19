@@ -21,7 +21,7 @@ window.PROFILE = {
 
   links: {
     github: 'https://github.com/Luqos',
-    linkedin: 'https://www.linkedin.com/in/luqman-hakem-laily-0815282a9/',
+    linkedin: 'https://www.linkedin.com/in/luqman-hakem-0815282a9/',
   },
 
   summary:
