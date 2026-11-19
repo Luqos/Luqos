@@ -167,8 +167,14 @@ window.PROFILE = {
 
   // Optional `url` adds a "Verify" link.
   certifications: [
-    { text: 'AWS Academy Graduate – Cloud Foundations (AWS Academy via UTeM, 2026)' },
-    { text: 'AWS Academy Graduate – Cloud Security Foundations (AWS Academy via UTeM, 2026)' },
+    {
+      text: 'AWS Academy Graduate – Cloud Foundations (AWS Academy via UTeM, Jul 2025)',
+      url: 'https://www.credly.com/badges/01ab5ac4-538a-4e31-bb23-ce56da8ab4b3',
+    },
+    {
+      text: 'AWS Academy Graduate – Cloud Security Foundations (AWS Academy via UTeM, Sep 2026)',
+      url: 'https://www.credly.com/badges/9f2f867c-e99f-4858-94a1-ebbc5256f930',
+    },
     {
       text: 'Red Hat OpenStack Administration I (CL110) – certificate of attendance, 40 hours (Red Hat via UTeM, Aug 2026)',
       url: 'https://www.credly.com/badges/7e388bfd-7b14-449e-a742-eef1523142c4',
