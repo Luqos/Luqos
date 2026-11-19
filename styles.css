@@ -995,3 +995,242 @@ img {
         font-size: 0.8rem;
     }
 }
+/* =====================================================
+   CV sections (content from data/profile.js)
+   Reuses the existing palette, card and tag styles.
+   ===================================================== */
+
+/* Section backgrounds keep alternating with the added sections */
+.experience,
+.education {
+    background: var(--darker);
+}
+
+.projects,
+.achievements {
+    background: var(--bg);
+}
+
+/* Longer CV headline in the hero */
+.hero-title {
+    font-size: 1.35rem;
+    line-height: 1.4;
+}
+
+.hero-desc {
+    max-width: 560px;
+}
+
+/* About: languages */
+.languages {
+    margin-top: 10px;
+}
+
+.languages-title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--white);
+    margin-bottom: 12px;
+}
+
+.languages-tags {
+    justify-content: center;
+}
+
+/* Skills: one card per category with tag chips */
+.skill-groups {
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+}
+
+.skill-group h3 {
+    margin-bottom: 16px;
+}
+
+.skill-group .skill-tags {
+    justify-content: center;
+    margin-bottom: 0;
+}
+
+/* Experience / Education timeline cards */
+.timeline {
+    max-width: 900px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.timeline-card {
+    background: var(--card-bg);
+    border-radius: 12px;
+    padding: 28px 30px;
+    border: 1px solid rgba(233, 69, 96, 0.1);
+    border-left: 3px solid var(--primary);
+    transition: var(--transition);
+}
+
+.timeline-card:hover {
+    border-color: var(--primary);
+    box-shadow: var(--shadow);
+}
+
+.timeline-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+.timeline-head h3 {
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: var(--white);
+}
+
+.timeline-date {
+    color: var(--primary);
+    font-size: 0.9rem;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.timeline-org {
+    color: var(--light);
+    font-size: 0.95rem;
+    margin-top: 4px;
+}
+
+.timeline-meta {
+    color: var(--gray);
+    font-size: 0.9rem;
+    margin-top: 2px;
+}
+
+.timeline-points,
+.project-points,
+.info-list {
+    list-style: disc;
+    padding-left: 20px;
+    color: var(--gray);
+    font-size: 0.95rem;
+}
+
+.timeline-points {
+    margin-top: 12px;
+}
+
+.timeline-points li,
+.project-points li,
+.info-list li {
+    margin-bottom: 6px;
+}
+
+/* Projects: CSS banner replaces the dead placeholder-image service */
+.project-banner {
+    height: 120px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, var(--secondary), var(--dark));
+}
+
+.project-banner i {
+    font-size: 3rem;
+    color: var(--primary);
+    opacity: 0.8;
+    transition: var(--transition);
+}
+
+.project-card:hover .project-banner i {
+    transform: scale(1.1);
+}
+
+.project-points {
+    margin-bottom: 15px;
+}
+
+/* Achievements: certifications, awards, leadership */
+.achievements-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 30px;
+}
+
+.info-card {
+    background: var(--card-bg);
+    border-radius: 12px;
+    padding: 28px 30px;
+    border: 1px solid rgba(233, 69, 96, 0.1);
+    transition: var(--transition);
+}
+
+.info-card:hover {
+    border-color: var(--primary);
+    box-shadow: var(--shadow);
+}
+
+.info-card h3 {
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: var(--white);
+    margin-bottom: 16px;
+}
+
+.info-card h3 i {
+    color: var(--primary);
+    margin-right: 8px;
+}
+
+.info-list strong {
+    display: block;
+    color: var(--light);
+    font-weight: 500;
+}
+
+.info-sub {
+    display: block;
+    font-size: 0.85rem;
+}
+
+.verify-link {
+    color: var(--primary);
+    font-weight: 500;
+    white-space: nowrap;
+}
+
+.verify-link:hover {
+    text-decoration: underline;
+}
+
+/* Contact links keep the existing muted look */
+.contact-item a:hover {
+    color: var(--primary);
+}
+
+/* Eight nav links: tighten spacing before the hamburger takes over */
+@media (max-width: 1100px) and (min-width: 769px) {
+    .nav-links {
+        gap: 16px;
+    }
+
+    .nav-links a {
+        font-size: 0.85rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .hero-title {
+        font-size: 1.1rem;
+    }
+
+    .skill-groups,
+    .achievements-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .timeline-card,
+    .info-card {
+        padding: 22px 20px;
+    }
+}

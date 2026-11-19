@@ -47,6 +47,151 @@ window.addEventListener('scroll', () => {
 });
 
 // =====================================================
+// Render CV content from data/profile.js (window.PROFILE)
+// All text goes in through textContent, never innerHTML.
+// =====================================================
+const PROFILE = window.PROFILE || {};
+const EXTERNAL_REL = 'noopener noreferrer';
+
+function el(tag, className, text) {
+    const node = document.createElement(tag);
+    if (className) node.className = className;
+    if (text !== undefined && text !== null) node.textContent = text;
+    return node;
+}
+
+function icon(classes) {
+    const i = el('i', classes);
+    i.setAttribute('aria-hidden', 'true');
+    return i;
+}
+
+function externalLink(href, label) {
+    const a = el('a');
+    a.href = href;
+    a.target = '_blank';
+    a.rel = EXTERNAL_REL;
+    if (label) a.setAttribute('aria-label', label);
+    return a;
+}
+
+// Simple text fields: <el data-profile="name">
+document.querySelectorAll('[data-profile]').forEach((node) => {
+    const value = PROFILE[node.getAttribute('data-profile')];
+    if (typeof value === 'string') node.textContent = value;
+});
+
+const profileImg = document.getElementById('profileImg');
+if (profileImg) profileImg.alt = PROFILE.name || '';
+
+const resumeLink = document.getElementById('resumeLink');
+if (resumeLink && PROFILE.resumeUrl) resumeLink.href = PROFILE.resumeUrl;
+
+// GitHub / LinkedIn icons (hero + footer)
+document.querySelectorAll('[data-social-links]').forEach((container) => {
+    const links = PROFILE.links || {};
+    if (links.github) {
+        const a = externalLink(links.github, 'GitHub');
+        a.appendChild(icon('fab fa-github'));
+        container.appendChild(a);
+    }
+    if (links.linkedin) {
+        const a = externalLink(links.linkedin, 'LinkedIn');
+        a.appendChild(icon('fab fa-linkedin-in'));
+        container.appendChild(a);
+    }
+});
+
+// Contact details
+const contactEmail = document.getElementById('contactEmail');
+if (contactEmail && PROFILE.email) {
+    contactEmail.href = `mailto:${PROFILE.email}`;
+    contactEmail.textContent = PROFILE.email;
+}
+const contactPhone = document.getElementById('contactPhone');
+if (contactPhone && PROFILE.phone) {
+    contactPhone.href = `tel:${PROFILE.phone.replace(/[^\d+]/g, '')}`;
+    contactPhone.textContent = PROFILE.phone;
+}
+
+// Languages (About section)
+const languagesList = document.getElementById('languagesList');
+if (languagesList && Array.isArray(PROFILE.languages)) {
+    languagesList.appendChild(el('h3', 'languages-title', 'Languages'));
+    const wrap = el('div', 'project-tags languages-tags');
+    PROFILE.languages.forEach((lang) => {
+        wrap.appendChild(el('span', null, `${lang.name} (${lang.level})`));
+    });
+    languagesList.appendChild(wrap);
+}
+
+// Skills: one card per category
+const skillsGrid = document.getElementById('skillsGrid');
+if (skillsGrid && Array.isArray(PROFILE.skills)) {
+    PROFILE.skills.forEach((group) => {
+        const card = el('div', 'skill-card skill-group');
+        card.appendChild(icon(group.icon || 'fas fa-check'));
+        card.appendChild(el('h3', null, group.category));
+        const tags = el('div', 'project-tags skill-tags');
+        group.items.forEach((item) => tags.appendChild(el('span', null, item)));
+        card.appendChild(tags);
+        skillsGrid.appendChild(card);
+    });
+}
+
+// Timeline entries (experience + education)
+function renderTimeline(container, entries, titleKey) {
+    if (!container || !Array.isArray(entries)) return;
+    entries.forEach((entry) => {
+        const card = el('article', 'timeline-card');
+        const head = el('div', 'timeline-head');
+        head.appendChild(el('h3', null, entry[titleKey]));
+        head.appendChild(el('span', 'timeline-date', entry.date));
+        card.appendChild(head);
+        card.appendChild(el('p', 'timeline-org', entry.org));
+        if (entry.meta) card.appendChild(el('p', 'timeline-meta', entry.meta));
+        if (entry.points && entry.points.length) {
+            const ul = el('ul', 'timeline-points');
+            entry.points.forEach((pt) => ul.appendChild(el('li', null, pt)));
+            card.appendChild(ul);
+        }
+        container.appendChild(card);
+    });
+}
+renderTimeline(document.getElementById('experienceList'), PROFILE.experience, 'role');
+renderTimeline(document.getElementById('educationList'), PROFILE.education, 'title');
+
+// Certifications, awards, leadership
+const certificationsList = document.getElementById('certificationsList');
+if (certificationsList && Array.isArray(PROFILE.certifications)) {
+    PROFILE.certifications.forEach((cert) => {
+        const li = el('li', null, cert.text);
+        if (cert.url) {
+            li.appendChild(document.createTextNode(' '));
+            const a = externalLink(cert.url, `Verify: ${cert.text}`);
+            a.className = 'verify-link';
+            a.appendChild(icon('fas fa-external-link-alt'));
+            a.appendChild(document.createTextNode(' Verify'));
+            li.appendChild(a);
+        }
+        certificationsList.appendChild(li);
+    });
+}
+const awardsList = document.getElementById('awardsList');
+if (awardsList && Array.isArray(PROFILE.awards)) {
+    PROFILE.awards.forEach((award) => awardsList.appendChild(el('li', null, award)));
+}
+const leadershipList = document.getElementById('leadershipList');
+if (leadershipList && Array.isArray(PROFILE.leadership)) {
+    PROFILE.leadership.forEach((item) => {
+        const li = el('li');
+        li.appendChild(el('strong', null, item.role));
+        li.appendChild(el('span', 'info-sub', `${item.org} | ${item.date}`));
+        leadershipList.appendChild(li);
+    });
+}
+
+// =====================================================
 // FEATURE 1: Interactive Terminal
 // =====================================================
 const terminalToggle = document.getElementById('terminalToggle');
@@ -54,42 +199,6 @@ const terminalOverlay = document.getElementById('terminalOverlay');
 const terminalClose = document.getElementById('terminalClose');
 const terminalBody = document.getElementById('terminalBody');
 const terminalInput = document.getElementById('terminalInput');
-
-const GITHUB_USERNAME = 'Luqos';
-const targetRepos = [
-    'FastAPI-with-Python-CI-CD',
-    'Static-Website-CI-CD',
-    'Health-Telemetry-CD-CD',
-    'go-microservice'
-];
-
-// Hardcoded fallback data in case GitHub API is rate-limited
-const FALLBACK_REPOS = [
-    {
-        name: 'FastAPI-with-Python-CI-CD',
-        description: 'Python FastAPI backend that demonstrates passing secure environment variables from a CI/CD pipeline into a running container without hardcoding them. Built with Docker for containerization and automated deployment.',
-        language: 'Python',
-        html_url: 'https://github.com/Luqos/FastAPI-with-Python-CI-CD',
-    },
-    {
-        name: 'Static-Website-CI-CD',
-        description: 'End-to-end CI/CD pipeline for a static website using Docker containerization, provisioned and deployed to AWS EC2 with Terraform.',
-        language: 'HCL',
-        html_url: 'https://github.com/Luqos/Static-Website-CI-CD',
-    },
-    {
-        name: 'Health-Telemetry-CD-CD',
-        description: 'Cloud-focused project exploring and testing CI/CD pipelines for a health telemetry system. Built with C++ and containerized with Docker, provisioned via Terraform.',
-        language: 'C++',
-        html_url: 'https://github.com/Luqos/Health-Telemetry-CD-CD',
-    },
-    {
-        name: 'go-microservice',
-        description: 'A compiled Go microservice designed to run without the full Go runtime environment — demonstrating statically linked binaries, containerization, and microservice architecture.',
-        language: 'Go',
-        html_url: 'https://github.com/Luqos/go-microservice',
-    }
-];
 
 function openTerminal() {
     terminalOverlay.classList.add('open');
@@ -120,93 +229,69 @@ document.addEventListener('keydown', (e) => {
     }
 });
 
+// Output is plain text (newlines preserved); typed input is never parsed as HTML.
 function appendTerminalOutput(text, className = 'terminal-output') {
-    const line = document.createElement('div');
-    line.className = 'terminal-line';
-    line.innerHTML = `<span class="${className}">${text}</span>`;
+    const line = el('div', 'terminal-line');
+    const span = el('span', className, text);
+    span.style.whiteSpace = 'pre-wrap';
+    line.appendChild(span);
     line.style.textAlign = 'left';
     terminalBody.appendChild(line);
     terminalBody.scrollTop = terminalBody.scrollHeight;
 }
 
 function appendTerminalCommand(cmd) {
-    const line = document.createElement('div');
-    line.className = 'terminal-line';
-    line.innerHTML = `<span class="terminal-prompt">luqman@portfolio:~$</span> ${cmd}`;
+    const line = el('div', 'terminal-line');
+    line.appendChild(el('span', 'terminal-prompt', 'luqman@portfolio:~$'));
+    line.appendChild(document.createTextNode(` ${cmd}`));
     line.style.textAlign = 'left';
     terminalBody.appendChild(line);
     terminalBody.scrollTop = terminalBody.scrollHeight;
 }
 
 const terminalCommands = {
-    help: () => {
-        return [
-            'Available commands:',
-            '  help       - Show this help message',
-            '  whoami     - Display current user info',
-            '  skills     - List my technical skills',
-            '  projects   - Show featured GitHub projects',
-            '  contact    - Display contact information',
-            '  uname -a   - Show system information',
-            '  clear      - Clear the terminal',
-            '  echo [msg] - Print a message',
-            '  ls         - List portfolio sections',
-            '  pwd        - Print current directory',
-            '  date       - Show current date and time',
-        ].join('<br>');
-    },
-    whoami: () => {
-        return 'luqman<br>Cloud Computing Student | DevOps Learner | Cloud Engineer To Be<br>GitHub: https://github.com/Luqos';
-    },
-    skills: () => {
-        return [
-            'Technical Skills:',
-            '  Cloud & Infrastructure:',
-            '    - Cloud Computing, AWS, Docker, Terraform, Linux',
-            '  Programming Languages:',
-            '    - Python, Java, Go, C++, JavaScript',
-            '  Web Development:',
-            '    - HTML5, CSS3, React, Node.js',
-            '  Databases:',
-            '    - SQL, MongoDB',
-            '  DevOps & Tools:',
-            '    - Git, GitHub, CI/CD, Networking',
-        ].join('<br>');
-    },
-    projects: () => {
-        return [
-            'Featured GitHub Projects:',
-            '  1. FastAPI-with-Python-CI-CD - Python FastAPI + Docker CI/CD',
-            '  2. Static-Website-CI-CD - Docker + Terraform + AWS EC2',
-            '  3. Health-Telemetry-CD-CD - C++ + Docker + Terraform',
-            '  4. go-microservice - Go microservice with Docker',
-            'Run `fetch` to load live data from GitHub API.',
-        ].join('<br>');
-    },
-    contact: () => {
-        return [
-            'Contact Information:',
-            '  Email:   work.luqman04@gmail.com',
-            '  Phone:   +6018-2938 471',
-            '  GitHub:  https://github.com/Luqos',
-            '  LinkedIn: https://www.linkedin.com/in/luqman-hakem-0815282a9/',
-        ].join('<br>');
-    },
-    'uname -a': () => {
-        return 'Linux portfolio-server 6.8.0-45-generic #45-Ubuntu SMP PREEMPT_DYNAMIC x86_64 GNU/Linux';
-    },
-    ls: () => {
-        return 'home/  about/  skills/  projects/  contact/';
-    },
-    pwd: () => {
-        return '/home/luqman/portfolio';
-    },
-    date: () => {
-        return new Date().toString();
-    },
-    echo: (args) => {
-        return args || '';
-    },
+    help: () => [
+        'Available commands:',
+        '  help        - Show this help message',
+        '  whoami      - Display current user info',
+        '  skills      - List my technical skills',
+        '  experience  - Show work experience',
+        '  projects    - Show featured GitHub projects',
+        '  education   - Show education',
+        '  contact     - Display contact information',
+        '  uname -a    - Show system information',
+        '  clear       - Clear the terminal',
+        '  echo [msg]  - Print a message',
+        '  ls          - List portfolio sections',
+        '  pwd         - Print current directory',
+        '  date        - Show current date and time',
+    ].join('\n'),
+    whoami: () => [PROFILE.name, PROFILE.headline, PROFILE.location].join('\n'),
+    skills: () => ['Technical Skills:']
+        .concat((PROFILE.skills || []).map((g) => `  ${g.category}:\n    - ${g.items.join(', ')}`))
+        .join('\n'),
+    experience: () => ['Work Experience:']
+        .concat((PROFILE.experience || []).map((x) => `  ${x.role}\n    ${x.org} | ${x.date}`))
+        .join('\n'),
+    projects: () => ['Featured GitHub Projects:']
+        .concat((PROFILE.projects || []).map((p, i) => `  ${i + 1}. ${p.title}\n     ${p.repo}`))
+        .join('\n'),
+    education: () => ['Education:']
+        .concat((PROFILE.education || []).map((x) => `  ${x.title}\n    ${x.org} | ${x.date}${x.meta ? ` | ${x.meta}` : ''}`))
+        .join('\n'),
+    contact: () => [
+        'Contact Information:',
+        `  Email:    ${PROFILE.email}`,
+        `  Phone:    ${PROFILE.phone}`,
+        `  Location: ${PROFILE.location}`,
+        `  GitHub:   ${(PROFILE.links || {}).github}`,
+        `  LinkedIn: ${(PROFILE.links || {}).linkedin}`,
+    ].join('\n'),
+    'uname -a': () => 'Linux portfolio-server 6.8.0-45-generic #45-Ubuntu SMP PREEMPT_DYNAMIC x86_64 GNU/Linux',
+    ls: () => 'home/  about/  skills/  experience/  projects/  education/  achievements/  contact/',
+    pwd: () => '/home/luqman/portfolio',
+    date: () => new Date().toString(),
+    echo: (args) => args || '',
 };
 
 terminalInput.addEventListener('keydown', (e) => {
@@ -226,7 +311,7 @@ terminalInput.addEventListener('keydown', (e) => {
         const args = parts.slice(1).join(' ');
 
         if (cmd === 'clear') {
-            terminalBody.innerHTML = '';
+            terminalBody.replaceChildren();
             return;
         }
 
@@ -240,7 +325,7 @@ terminalInput.addEventListener('keydown', (e) => {
             return;
         }
 
-        if (terminalCommands[cmd]) {
+        if (Object.prototype.hasOwnProperty.call(terminalCommands, cmd)) {
             appendTerminalOutput(terminalCommands[cmd]());
         } else {
             appendTerminalOutput(`Command not found: ${cmd}. Type 'help' for available commands.`, 'terminal-error');
@@ -249,127 +334,44 @@ terminalInput.addEventListener('keydown', (e) => {
 });
 
 // =====================================================
-// FEATURE 2: Live GitHub Project Fetching
+// FEATURE 2: Project Cards (from data/profile.js)
 // =====================================================
 const projectsGrid = document.getElementById('projectsGrid');
-const projectsLoading = document.getElementById('projectsLoading');
-const projectsError = document.getElementById('projectsError');
 
-function getPlaceholderUrl(text) {
-    const colors = ['0f3460', '16213e', '1a1a2e', '0a0a23'];
-    const color = colors[Math.floor(Math.random() * colors.length)];
-    return `https://via.placeholder.com/600x200/${color}/e94560?text=${encodeURIComponent(text)}`;
+function buildProjectCard(project) {
+    const card = el('div', 'project-card');
+    card.setAttribute('data-tags', (project.filters || []).join(' '));
+
+    // CSS-only banner (replaces the old external placeholder image service)
+    const banner = el('div', 'project-img project-banner');
+    banner.setAttribute('aria-hidden', 'true');
+    banner.appendChild(icon('fab fa-github'));
+    card.appendChild(banner);
+
+    const info = el('div', 'project-info');
+    info.appendChild(el('h3', null, project.title));
+
+    const ul = el('ul', 'project-points');
+    project.points.forEach((pt) => ul.appendChild(el('li', null, pt)));
+    info.appendChild(ul);
+
+    const tags = el('div', 'project-tags');
+    project.tech.forEach((t) => tags.appendChild(el('span', null, t)));
+    info.appendChild(tags);
+
+    const links = el('div', 'project-links');
+    const code = externalLink(project.repo, `Source code for ${project.title} on GitHub`);
+    code.appendChild(icon('fab fa-github'));
+    code.appendChild(document.createTextNode(' Code'));
+    links.appendChild(code);
+    info.appendChild(links);
+
+    card.appendChild(info);
+    return card;
 }
 
-function buildProjectCard(repo) {
-    // Determine tags from language and repo name
-    const tags = [repo.language || 'N/A'];
-    const nameLower = repo.name.toLowerCase();
-    if (nameLower.includes('ci') || nameLower.includes('cd') || (repo.description && repo.description.toLowerCase().includes('ci'))) {
-        tags.push('CI/CD');
-    }
-    if (repo.language === 'Dockerfile' || nameLower.includes('docker') || (repo.description && repo.description.toLowerCase().includes('docker'))) {
-        tags.push('Docker');
-    }
-    if (nameLower.includes('microservice') || nameLower.includes('go-')) {
-        tags.push('Microservices');
-    }
-    if (repo.language === 'HCL' || nameLower.includes('terraform')) {
-        tags.push('Terraform');
-    }
-    if (repo.language === 'Python' || nameLower.includes('fastapi')) {
-        tags.push('Python');
-    }
-    if (repo.language === 'Go' || repo.language === 'C++') {
-        tags.push(repo.language);
-    }
-
-    const desc = repo.description || 'No description provided.';
-    const projectName = repo.name
-        .replace(/-/g, ' ')
-        .replace(/\b\w/g, (c) => c.toUpperCase())
-        .replace(/Ci Cd/g, 'CI/CD')
-        .replace(/Cd Cd/g, 'CI/CD');
-
-    return `
-        <div class="project-card" data-tags="${tags.join(' ')}">
-            <div class="project-img">
-                <img src="${getPlaceholderUrl(projectName)}" alt="${projectName}" />
-            </div>
-            <div class="project-info">
-                <h3>${projectName}</h3>
-                <p>${desc}</p>
-                <div class="project-tags">
-                    ${tags.map((tag) => `<span>${tag}</span>`).join('')}
-                </div>
-                <div class="project-links">
-                    <a href="${repo.html_url}" target="_blank" aria-label="Code"><i class="fab fa-github"></i> Code</a>
-                </div>
-            </div>
-        </div>
-    `;
-}
-
-async function fetchGitHubProjects() {
-    try {
-        projectsLoading.style.display = 'block';
-        projectsError.style.display = 'none';
-
-        const repos = [];
-
-        for (const repoName of targetRepos) {
-            try {
-                const res = await fetch(`https://api.github.com/repos/${GITHUB_USERNAME}/${repoName}`);
-                if (res.ok) {
-                    const data = await res.json();
-                    repos.push(data);
-                }
-            } catch (e) {
-                // skip failed fetches
-            }
-        }
-
-        // Fallback repo if fetching fails
-        if (repos.length === 0) {
-            const fallbackRes = await fetch(`https://api.github.com/users/${GITHUB_USERNAME}/repos?per_page=10&sort=updated`);
-            if (fallbackRes.ok) {
-                const allRepos = await fallbackRes.json();
-                // Take top 4 non-fork repos
-                const filtered = allRepos.filter((r) => !r.fork).slice(0, 4);
-                repos.push(...filtered);
-            }
-        }
-
-        projectsLoading.style.display = 'none';
-
-        // If API fetch failed entirely, use hardcoded fallback data
-        if (repos.length === 0) {
-            repos.push(...FALLBACK_REPOS);
-        }
-
-        // Sort by target order
-        repos.sort((a, b) => {
-            const ia = targetRepos.indexOf(a.name);
-            const ib = targetRepos.indexOf(b.name);
-            return (ia === -1 ? 99 : ia) - (ib === -1 ? 99 : ib);
-        });
-
-        projectsGrid.innerHTML = repos.map((r) => buildProjectCard(r)).join('');
-
-        // Re-attach filter to new cards
-        initFilter();
-
-        // Re-attach reveal observer
-        const newCards = projectsGrid.querySelectorAll('.project-card');
-        newCards.forEach((card) => {
-            card.style.opacity = '1';
-            card.style.transform = 'translateY(0)';
-        });
-
-    } catch (err) {
-        projectsLoading.style.display = 'none';
-        projectsError.style.display = 'block';
-    }
+if (projectsGrid && Array.isArray(PROFILE.projects)) {
+    PROFILE.projects.forEach((p) => projectsGrid.appendChild(buildProjectCard(p)));
 }
 
 // =====================================================
@@ -387,32 +389,23 @@ function initFilter() {
             const filter = btn.getAttribute('data-filter');
 
             cards.forEach((card) => {
-                if (filter === 'all') {
+                const tags = (card.getAttribute('data-tags') || '').toLowerCase().split(' ');
+                if (filter === 'all' || tags.includes(filter.toLowerCase())) {
                     card.classList.remove('hidden', 'fade-out');
                     card.classList.add('fade-in');
                 } else {
-                    const tags = card.getAttribute('data-tags') || '';
-                    if (tags.toLowerCase().includes(filter.toLowerCase())) {
-                        card.classList.remove('hidden', 'fade-out');
-                        card.classList.add('fade-in');
-                    } else {
-                        card.classList.add('fade-out');
-                        card.classList.remove('fade-in');
-                        setTimeout(() => card.classList.add('hidden'), 400);
-                    }
+                    card.classList.add('fade-out');
+                    card.classList.remove('fade-in');
+                    setTimeout(() => {
+                        if (card.classList.contains('fade-out')) card.classList.add('hidden');
+                    }, 400);
                 }
             });
         });
     });
 }
 
-// Initial filter setup (will be re-called after fetch)
 initFilter();
-
-// =====================================================
-// Run GitHub fetch on page load
-// =====================================================
-fetchGitHubProjects();
 
 // =====================================================
 // FEATURE 4: Contact Form — WhatsApp & Email (Web3Forms)
@@ -445,7 +438,7 @@ btnWhatsapp.addEventListener('click', () => {
     formStatus.className = 'form-status';
     formStatus.textContent = '';
 
-    window.open(`https://wa.me/60182938471?text=${encodedMessage}`, '_blank');
+    window.open(`https://wa.me/${PROFILE.whatsapp}?text=${encodedMessage}`, '_blank', 'noopener,noreferrer');
 });
 
 // Email Logic via Web3Forms
@@ -494,7 +487,7 @@ btnEmail.addEventListener('click', async () => {
 
 // ===== Smooth Reveal Animation on Scroll =====
 const revealElements = document.querySelectorAll(
-    '.skill-card, .contact-content > *'
+    '.skill-card, .timeline-card, .info-card, .contact-content > *'
 );
 
 const revealObserver = new IntersectionObserver(

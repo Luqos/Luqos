@@ -3,7 +3,55 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Portfolio | Luqman Hakem</title>
+    <!-- SEO tags are kept as static HTML for crawlers and link previews.
+         If the name, headline or summary in data/profile.js changes, update these too. -->
+    <title>Luqman Hakem Bin Laily | Third-Year Cloud Computing Student (BITA)</title>
+    <meta name="description" content="Third-year BITA (Cloud Computing and Application) student at UTeM, CGPA 3.66. Hands-on with AWS serverless/IoT, OpenStack, Windows Server, Linux, Cisco networking, Terraform and GitHub Actions. Seeking an industrial training placement, 15 March 2027 to 27 August 2027." />
+    <meta name="author" content="Luqman Hakem Bin Laily" />
+    <link rel="canonical" href="https://portfolio-web-phi-smoky.vercel.app/" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="profile" />
+    <meta property="og:url" content="https://portfolio-web-phi-smoky.vercel.app/" />
+    <meta property="og:title" content="Luqman Hakem Bin Laily | Third-Year Cloud Computing Student (BITA)" />
+    <meta property="og:description" content="Cloud Infrastructure / Networking / System Administration. Third-year BITA student at UTeM, seeking an industrial training placement, 15 March 2027 to 27 August 2027." />
+    <meta property="og:image" content="https://portfolio-web-phi-smoky.vercel.app/profile.jpeg" />
+    <meta property="og:image:alt" content="Luqman Hakem Bin Laily" />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="Luqman Hakem Bin Laily | Third-Year Cloud Computing Student (BITA)" />
+    <meta name="twitter:description" content="Cloud Infrastructure / Networking / System Administration. Third-year BITA student at UTeM, seeking an industrial training placement, 15 March 2027 to 27 August 2027." />
+    <meta name="twitter:image" content="https://portfolio-web-phi-smoky.vercel.app/profile.jpeg" />
+
+    <!-- JSON-LD -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": "Luqman Hakem Bin Laily",
+      "jobTitle": "Third-Year Cloud Computing Student (BITA)",
+      "description": "Third-Year Cloud Computing Student (BITA) | Cloud Infrastructure / Networking / System Administration",
+      "url": "https://portfolio-web-phi-smoky.vercel.app/",
+      "image": "https://portfolio-web-phi-smoky.vercel.app/profile.jpeg",
+      "email": "mailto:work.luqman04@gmail.com",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Chemor",
+        "addressRegion": "Perak",
+        "addressCountry": "MY"
+      },
+      "alumniOf": [
+        { "@type": "CollegeOrUniversity", "name": "Universiti Teknikal Malaysia Melaka (UTeM)" },
+        { "@type": "EducationalOrganization", "name": "Kolej Vokasional Ipoh" }
+      ],
+      "sameAs": [
+        "https://github.com/Luqos",
+        "https://www.linkedin.com/in/luqman-hakem-laily-0815282a9/"
+      ]
+    }
+    </script>
+
     <link rel="stylesheet" href="styles.css" />
     <link
       rel="stylesheet"
@@ -15,15 +63,20 @@
     />
 </head>
 <body>
+    <!-- All CV content on this page is rendered from data/profile.js by script.js. -->
+
     <!-- Navbar -->
     <nav class="navbar">
         <div class="container nav-container">
-            <a href="#" class="logo">Luqman<span class="dot">.</span></a>
+            <a href="#home" class="logo"><span data-profile="shortName"></span><span class="dot">.</span></a>
             <ul class="nav-links" id="navLinks">
                 <li><a href="#home" class="active">Home</a></li>
                 <li><a href="#about">About</a></li>
                 <li><a href="#skills">Skills</a></li>
+                <li><a href="#experience">Experience</a></li>
                 <li><a href="#projects">Projects</a></li>
+                <li><a href="#education">Education</a></li>
+                <li><a href="#achievements">Achievements</a></li>
                 <li><a href="#contact">Contact</a></li>
             </ul>
             <div class="nav-actions">
@@ -49,7 +102,7 @@
                     <span class="dot-green"></span>
                 </div>
                 <span class="terminal-title">luqman@portfolio:~$</span>
-                <button class="terminal-close" id="terminalClose"><i class="fas fa-times"></i></button>
+                <button class="terminal-close" id="terminalClose" aria-label="Close Terminal"><i class="fas fa-times"></i></button>
             </div>
             <div class="terminal-body" id="terminalBody">
                 <div class="terminal-line">
@@ -59,7 +112,7 @@
             </div>
             <div class="terminal-input-line">
                 <span class="terminal-prompt">luqman@portfolio:~$</span>
-                <input type="text" class="terminal-input" id="terminalInput" autofocus />
+                <input type="text" class="terminal-input" id="terminalInput" aria-label="Terminal input" autofocus />
             </div>
         </div>
     </div>
@@ -69,29 +122,19 @@
         <div class="container hero-content">
             <div class="hero-text">
                 <p class="hero-greeting">Hello, I'm</p>
-                <h1 class="hero-name">Luqman Hakem</h1>
-                <h2 class="hero-title">
-                    Passionate Cloud Computing Student | DevOps Learner | Cloud Engineer To Be
-                </h2>
-                <p class="hero-desc">
-                    A passionate Cloud Computing student who loves to explore new technologies.
-                    Currently pursuing a Bachelor's in Cloud Computing Technologies and Application.
-                </p>
+                <h1 class="hero-name" data-profile="name"></h1>
+                <h2 class="hero-title" data-profile="headline"></h2>
+                <p class="hero-desc" data-profile="placement"></p>
                 <div class="hero-buttons">
                     <a href="#projects" class="btn btn-primary">View Projects</a>
                     <a href="#contact" class="btn btn-outline">Contact Me</a>
+                    <a href="#" class="btn btn-outline" id="resumeLink" download><i class="fas fa-file-download"></i> Download CV</a>
                 </div>
-                <div class="hero-socials">
-                    <a href="https://github.com/Luqos" target="_blank" aria-label="GitHub"><i class="fab fa-github"></i></a>
-                    <a href="https://www.linkedin.com/in/luqman-hakem-0815282a9/" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
-                </div>
+                <div class="hero-socials" data-social-links></div>
             </div>
             <div class="hero-image">
                 <div class="hero-img-wrapper">
-                    <img
-                      src="profile.jpeg"
-                      alt="Luqman Hakem"
-                    />
+                    <img src="profile.jpeg" alt="" id="profileImg" />
                 </div>
             </div>
         </div>
@@ -103,16 +146,9 @@
             <h2 class="section-title">About <span class="highlight">Me</span></h2>
             <div class="about-content">
                 <div class="about-text">
-                    <p>
-                        I am a passionate Cloud Computing student who loves to explore new technologies.
-                        Currently doing my Bachelor's in Cloud Computing Technologies and Application.
-                    </p>
-                    <p>
-                        I'm deeply interested in DevOps practices, cloud infrastructure, and building
-                        scalable systems. Always eager to learn, experiment, and grow as a future
-                        Cloud Engineer.
-                    </p>
+                    <p data-profile="summary"></p>
                 </div>
+                <div class="languages" id="languagesList" aria-label="Languages"></div>
             </div>
         </div>
     </section>
@@ -121,80 +157,15 @@
     <section id="skills" class="skills section">
         <div class="container">
             <h2 class="section-title">My <span class="highlight">Skills</span></h2>
-            <div class="skills-grid">
-                <div class="skill-card">
-                    <i class="fas fa-cloud"></i>
-                    <h3>Cloud Computing</h3>
-                </div>
-                <div class="skill-card">
-                    <i class="fab fa-aws"></i>
-                    <h3>AWS</h3>
-                </div>
-                <div class="skill-card">
-                    <i class="fas fa-network-wired"></i>
-                    <h3>Networking</h3>
-                </div>
-                <div class="skill-card">
-                    <i class="fab fa-docker"></i>
-                    <h3>Docker</h3>
-                </div>
-                <div class="skill-card">
-                    <i class="fab fa-linux"></i>
-                    <h3>Linux</h3>
-                </div>
-                <div class="skill-card">
-                    <i class="fas fa-code-branch"></i>
-                    <h3>DevOps</h3>
-                </div>
-                <div class="skill-card">
-                    <i class="fab fa-html5"></i>
-                    <h3>HTML5</h3>
-                </div>
-                <div class="skill-card">
-                    <i class="fab fa-css3-alt"></i>
-                    <h3>CSS3</h3>
-                </div>
-                <div class="skill-card">
-                    <i class="fab fa-js"></i>
-                    <h3>JavaScript</h3>
-                </div>
-                <div class="skill-card">
-                    <i class="fab fa-react"></i>
-                    <h3>React</h3>
-                </div>
-                <div class="skill-card">
-                    <i class="fab fa-node"></i>
-                    <h3>Node.js</h3>
-                </div>
-                <div class="skill-card">
-                    <i class="fab fa-python"></i>
-                    <h3>Python</h3>
-                </div>
-                <div class="skill-card">
-                    <i class="fab fa-java"></i>
-                    <h3>Java</h3>
-                </div>
-                <div class="skill-card">
-                    <i class="fas fa-database"></i>
-                    <h3>SQL / MongoDB</h3>
-                </div>
-                <div class="skill-card">
-                    <i class="fab fa-git-alt"></i>
-                    <h3>Git & GitHub</h3>
-                </div>
-                <div class="skill-card">
-                    <i class="fab fa-golang"></i>
-                    <h3>Go</h3>
-                </div>
-                <div class="skill-card">
-                    <i class="fas fa-code"></i>
-                    <h3>Terraform</h3>
-                </div>
-                <div class="skill-card">
-                    <i class="fas fa-microchip"></i>
-                    <h3>C++</h3>
-                </div>
-            </div>
+            <div class="skills-grid skill-groups" id="skillsGrid"></div>
+        </div>
+    </section>
+
+    <!-- Experience -->
+    <section id="experience" class="experience section">
+        <div class="container">
+            <h2 class="section-title">Work <span class="highlight">Experience</span></h2>
+            <div class="timeline" id="experienceList"></div>
         </div>
     </section>
 
@@ -204,18 +175,39 @@
             <h2 class="section-title">My <span class="highlight">Projects</span></h2>
             <div class="filter-buttons" id="filterButtons">
                 <button class="filter-btn active" data-filter="all">All</button>
-                <button class="filter-btn" data-filter="CI/CD">CI/CD</button>
-                <button class="filter-btn" data-filter="Docker">Docker</button>
-                <button class="filter-btn" data-filter="Microservices">Microservices</button>
+                <button class="filter-btn" data-filter="AWS">AWS</button>
+                <button class="filter-btn" data-filter="Terraform">Terraform</button>
+                <button class="filter-btn" data-filter="Web">Web</button>
             </div>
-            <div class="projects-grid" id="projectsGrid">
-                <!-- Dynamically injected by GitHub API fetch -->
-            </div>
-            <div class="projects-loading" id="projectsLoading">
-                <i class="fas fa-spinner fa-spin"></i> Loading projects from GitHub...
-            </div>
-            <div class="projects-error" id="projectsError" style="display:none;">
-                <i class="fas fa-exclamation-triangle"></i> Could not load projects. Showing cached data.
+            <div class="projects-grid" id="projectsGrid"></div>
+        </div>
+    </section>
+
+    <!-- Education -->
+    <section id="education" class="education section">
+        <div class="container">
+            <h2 class="section-title"><span class="highlight">Education</span></h2>
+            <div class="timeline" id="educationList"></div>
+        </div>
+    </section>
+
+    <!-- Achievements: certifications, awards, leadership -->
+    <section id="achievements" class="achievements section">
+        <div class="container">
+            <h2 class="section-title">Achievements &amp; <span class="highlight">Activities</span></h2>
+            <div class="achievements-grid">
+                <div class="info-card">
+                    <h3><i class="fas fa-certificate"></i> Certifications &amp; Training</h3>
+                    <ul class="info-list" id="certificationsList"></ul>
+                </div>
+                <div class="info-card">
+                    <h3><i class="fas fa-trophy"></i> Awards &amp; Achievements</h3>
+                    <ul class="info-list" id="awardsList"></ul>
+                </div>
+                <div class="info-card">
+                    <h3><i class="fas fa-users"></i> Leadership &amp; Activities</h3>
+                    <ul class="info-list" id="leadershipList"></ul>
+                </div>
             </div>
         </div>
     </section>
@@ -225,19 +217,19 @@
         <div class="container">
             <h2 class="section-title">Get In <span class="highlight">Touch</span></h2>
             <p class="contact-subtitle">
-                Have a project in mind or just want to connect? Let's talk.
+                Open to industrial training opportunities. Feel free to get in touch.
             </p>
             <div class="contact-content">
                 <form id="contactForm" class="contact-form">
                     <input type="hidden" name="access_key" value="1da040db-4cbc-4f57-8fae-83021fc0e786" />
                     <div class="form-group">
-                        <input type="text" id="name" placeholder="Your Name" required />
+                        <input type="text" id="name" name="name" placeholder="Your Name" aria-label="Your Name" required />
                     </div>
                     <div class="form-group">
-                        <input type="email" id="email" placeholder="Your Email" required />
+                        <input type="email" id="email" name="email" placeholder="Your Email" aria-label="Your Email" required />
                     </div>
                     <div class="form-group">
-                        <textarea id="message" rows="5" placeholder="Your Message" required></textarea>
+                        <textarea id="message" name="message" rows="5" placeholder="Your Message" aria-label="Your Message" required></textarea>
                     </div>
                     <div class="form-status" id="formStatus"></div>
                     <div class="btn-container">
@@ -252,15 +244,15 @@
                 <div class="contact-info">
                     <div class="contact-item">
                         <i class="fas fa-envelope"></i>
-                        <span>work.luqman04@gmail.com</span>
+                        <span><a id="contactEmail" href="#"></a></span>
                     </div>
                     <div class="contact-item">
                         <i class="fas fa-phone"></i>
-                        <span>+6018-2938 471</span>
+                        <span><a id="contactPhone" href="#"></a></span>
                     </div>
                     <div class="contact-item">
                         <i class="fas fa-map-marker-alt"></i>
-                        <span>Ipoh, Perak / Durian Tunggal, Melaka, Malaysia</span>
+                        <span data-profile="location"></span>
                     </div>
                 </div>
             </div>
@@ -270,14 +262,12 @@
     <!-- Footer -->
     <footer class="footer">
         <div class="container">
-            <p>&copy; 2026 Luqman Hakem. All rights reserved.</p>
-            <div class="footer-socials">
-                <a href="https://github.com/Luqos" target="_blank" aria-label="GitHub"><i class="fab fa-github"></i></a>
-                <a href="https://www.linkedin.com/in/luqman-hakem-0815282a9/" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
-            </div>
+            <p>&copy; 2026 <span data-profile="name"></span>. All rights reserved.</p>
+            <div class="footer-socials" data-social-links></div>
         </div>
     </footer>
 
+    <script src="data/profile.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
