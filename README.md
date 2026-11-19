@@ -74,10 +74,11 @@ Third-year BITA (Cloud Computing and Application) student at Universiti Teknikal
 
 ## 📜 Certifications & Training
 
-- AWS Academy Graduate – Cloud Foundations (AWS Academy via UTeM, Jul 2025) · [Verify](https://www.credly.com/badges/01ab5ac4-538a-4e31-bb23-ce56da8ab4b3)
-- AWS Academy Graduate – Cloud Security Foundations (AWS Academy via UTeM, Sep 2026) · [Verify](https://www.credly.com/badges/9f2f867c-e99f-4858-94a1-ebbc5256f930)
-- Red Hat OpenStack Administration I (CL110) – certificate of attendance, 40 hours (Red Hat via UTeM, Aug 2026) · [Verify](https://www.credly.com/badges/7e388bfd-7b14-449e-a742-eef1523142c4)
-- Cisco CCNA: Introduction to Networks and Cisco IT Essentials (Cisco Networking Academy, 2024)
+- AWS Academy Graduate – Cloud Foundations (AWS, Jul 2025) · [Verify](https://www.credly.com/badges/01ab5ac4-538a-4e31-bb23-ce56da8ab4b3)
+- AWS Academy Graduate – Cloud Security Foundations (AWS, Sep 2026) · [Verify](https://www.credly.com/badges/9f2f867c-e99f-4858-94a1-ebbc5256f930)
+- Red Hat OpenStack Administration I (CL110), 40 hours (Red Hat, Aug 2026) · [Verify](https://www.credly.com/badges/7e388bfd-7b14-449e-a742-eef1523142c4)
+- Cisco CCNA: Introduction to Networks (Cisco, Mar 2024) · [Verify](https://www.credly.com/badges/e5caac46-649f-4584-a4dc-4282fb5632b5)
+- Cisco IT Essentials (Cisco, Jan 2024) · [Verify](https://www.credly.com/badges/269bf345-fe79-4647-b37d-8f3b1968420e)
 - Google Certified Educator Level 1 (2026–2029); Google Gemini short courses including Introduction to Vibe Coding (2026)
 - MUET Band 4.0 (2023)
 
