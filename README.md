@@ -7,7 +7,7 @@ Third-year BITA (Cloud Computing and Application) student at Universiti Teknikal
 
 🎯 **Seeking a cloud, infrastructure, network, sysadmin or IT support industrial training placement, 15 March 2027 to 27 August 2027 (24 weeks).**
 
-🌐 Portfolio: [portfolio-web-phi-smoky.vercel.app](https://portfolio-web-phi-smoky.vercel.app) · 📄 [Download CV](https://portfolio-web-phi-smoky.vercel.app/Luqman-Hakem-CV.pdf)
+🌐 Portfolio: [portfolio-luqos.vercel.app](https://portfolio-luqos.vercel.app) · 📄 [Download CV](https://portfolio-luqos.vercel.app/Luqman-Hakem-CV.pdf)
 
 ---
 
@@ -106,7 +106,7 @@ Bahasa Malaysia (Native) · English (Fluent) · Mandarin (Basic) · French (Basi
 
 ## 📫 Let's Connect
 
-- 🌐 Portfolio: https://portfolio-web-phi-smoky.vercel.app
+- 🌐 Portfolio: https://portfolio-luqos.vercel.app
 - 💼 LinkedIn: https://www.linkedin.com/in/luqman-hakem-laily-0815282a9/
 - 🐙 GitHub: https://github.com/Luqos
 - ✉️ Email: work.luqman04@gmail.com
